@@ -3,6 +3,7 @@ FROM python:3.11
 WORKDIR /code
 
 COPY pyproject.toml .
+COPY setup_dev_db.py .
 COPY .env .
 
 RUN pip3 install poetry

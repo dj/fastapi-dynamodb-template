@@ -38,13 +38,6 @@ async def read_current_user(current_user: Annotated[User, Depends(get_current_us
     return current_user
 
 
-@router.get("/users/me/items/")
-async def read_current_users_items(
-    current_user: Annotated[User, Depends(get_current_user)]
-):
-    return [{"item_id": "Foo", "owner": current_user.username}]
-
-
 @router.post("/token", response_model=Token)
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()], settings: AppSettings

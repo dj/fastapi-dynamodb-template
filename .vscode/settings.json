@@ -1,16 +1,4 @@
 {
-    "eslint.options": {
-        "overrideConfigFile": ".eslintrc.cjs"
-    },
-    "eslint.workingDirectories": [
-        "./client"
-    ],
-    "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
-    },
-    "eslint.validate": [
-        "javascript"
-    ],
     "python.analysis.extraPaths": [
         "./server"
     ],

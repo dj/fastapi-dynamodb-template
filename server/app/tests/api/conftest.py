@@ -2,7 +2,7 @@ import pytest
 import os
 import boto3
 
-test_table_name = "lists-app-test"
+test_table_name = "test-table"
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -36,7 +36,6 @@ def setup_db(request):
     print(f"\n\nTest table created: {test_table_name}\n\n")
 
     def teardown():
-        del os.environ["DB_TABLE_NAME"]
         dynamodb.meta.client.delete_table(TableName=test_table_name)
         print(f"\n\nTest table deleted: {test_table_name}\n\n")
 
