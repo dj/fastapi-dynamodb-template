@@ -1,0 +1,50 @@
+version: '3.8'
+services:
+
+  nginx:
+    container_name: nginx
+    depends_on:
+      - client
+      - server
+    restart: always
+    build: ./nginx
+    ports:
+      - "80:80"
+
+  dynamodb-local:
+    container_name: dynamodb-local
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    # command: "-jar DynamoDBLocal.jar -sharedDb -inMemory"
+    image: "amazon/dynamodb-local:latest"
+    ports:
+      - "8000:8000"
+    user: root
+    volumes:
+      - "./db:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
+
+  server:
+    container_name: server
+    depends_on:
+      - dynamodb-local
+    build: ./server
+    environment:
+      - DEBUG=1
+      - AWS_ACCESS_KEY_ID=DUMMYIDEXAMPLE
+      - AWS_SECRET_ACCESS_KEY=DUMMYEXAMPLEKEY
+    volumes:
+      - "./server/app:/code/app"
+    ports:
+      - "3001:3001"
+    restart: on-failure
+
+  client:
+    container_name: client
+    depends_on:
+      - server
+    build: ./client
+    volumes:
+      - "./client/src:/code/src"
+    ports:
+      - "3000:3000"
+    restart: on-failure
